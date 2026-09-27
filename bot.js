@@ -84,7 +84,7 @@ client.on('messageCreate', async (message) => {
     const command = args.shift().toLowerCase();
 
     if (command === 'help' || command === 'menu') {
-        const txtMenu = '**Prefix:** ' + PREFIX + '\n\n🛡️ **[ ꒰১sᴇcuʀιтʏ໒꒱ ]**\n• `lock` / `unlock` : Khóa/Mở khóa kênh chat siêu tốc.\n• `ban @user <lý do>` : Trục xuất vĩnh viễn user phá hoại.\n• `unban <ID>` : Gỡ ban bằng ID số.\n• `timeout @user <thời_gian> <lý do>` : Khóa chat thành viên.\n• `untimeout @user` : Hủy cấm chat trước thời hạn.\n• `role @user @role` : Tự động Cấp hoặc Gỡ role nhanh cho người chơi.\n• `antiraid` / `antibot` / `antilink` : Bật/Tắt chế độ bảo vệ chạy ngầm.\n• `warn @user <lý do>` : Cảnh cáo thành viên vi phạm.\n• `prefix <dấu_mới>` : Thay đổi dấu lệnh của bot nhanh chóng.\n\n🛠️ **[ ꒰১ тooʟs ໒꒱ ]**\n• `serverinfo` : Kiểm tra thông tin, công cụ và thống kê cấp độ Boost.\n• `botinfo` : Xem tình trạng hoạt động và độ trễ (ping) của bot.';
+        const txtMenu = '**Prefix:** ' + PREFIX + '\n\n🛡️ **[ ꒰飾sᴇcuʀιтʏ໒꒱ ]**\n• `lock` / `unlock` : Khóa/Mở khóa kênh chat siêu tốc.\n• `ban @user <lý do>` : Trục xuất vĩnh viễn user phá hoại.\n• `unban <ID>` : Gỡ ban bằng ID số.\n• `timeout @user <thời_gian> <lý do>` : Khóa chat thành viên.\n• `untimeout @user` : Hủy cấm chat trước thời hạn.\n• `role @user @role` : Tự động Cấp hoặc Gỡ role nhanh cho người chơi.\n• `antiraid` / `antibot` / `antilink` : Bật/Tắt chế độ bảo vệ chạy ngầm.\n• `warn @user <lý do>` : Cảnh cáo thành viên vi phạm.\n• `prefix <dấu_mới>` : Thay đổi dấu lệnh của bot nhanh chóng.\n\n🛠️ **[ ꒰১ тooʟs ໒꒱ ]**\n• `serverinfo` : Kiểm tra thông tin, công cụ và thống kê cấp độ Boost.\n• `botinfo` : Xem tình trạng hoạt động và độ trễ (ping) của bot.';
         const embed = new EmbedBuilder().setColor('#FFFACD').setTitle('✨ LAND OF THE SUN ✨').setDescription(txtMenu).setFooter({ text: 'Hệ thống quản lý và bảo vệ độc quyền bởi Sunnie' });
         message.channel.send({ embeds: [embed] });
     }
@@ -179,7 +179,7 @@ client.on('messageCreate', async (message) => {
         const botHighestRole = message.guild.members.me.roles.highest;
         if (role.position >= botHighestRole.position) return message.reply(`❌ **Không thể cấp role do lỗi Cấp Bậc Vai Trò (Role Hierarchy)!**\n💡 **Cách sửa:** Bạn phải vào *Cài đặt Máy chủ > Vai trò*, kéo vai trò của Bot Sunnie lên trên cùng bảng danh sách.`);
         try {
-            if (member.roles.cache.has(role.id)) { await member.roles.remove(role); message.reply('💡 ૮ ྀིᴗ͈ . ᴗ͈ ྀིა đã gỡ role của ' + member.user.username + ' | Tên vai trò: **' + role.name + '**'); }
+            if (member.roles.cache.has(role.id)) { await member.roles.remove(role); message.reply('💡 ૮ ྀིᴗ͈ . ᴗ͈ ྀིa đã gỡ role của ' + member.user.username + ' | Tên vai trò: **' + role.name + '**'); }
             else { await member.roles.add(role); message.reply('(˶˃ ˂˶) add role ' + role.name + ' cho ' + member.user.username + ' thành công! 🎉'); }
         } catch (error) { message.reply('❌ Có lỗi hệ thống xảy ra khi gán vai trò.'); }
     }
@@ -210,5 +210,5 @@ client.on('messageCreate', async (message) => {
     }
 });
 
-// 📌 THAY MÃ TOKEN BOT CỦA BẠN VÀO GIỮA HAI DẤU NHÁY ĐƠN:
-client.login('TOKEN_CUA_BAN_TAI_DAY');
+// 📌 HÃY XÓA CHỮ DƯỚI ĐÂY ĐI VÀ DÁN MÃ TOKEN THẬT CỦA BẠN VÀO GIỮA HAI DẤU NHÁY ĐƠN:
+client.login('TOKEN_THẬT_CỦA_BẠN_Ở_ĐÂY');
