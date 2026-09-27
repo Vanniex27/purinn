@@ -210,4 +210,4 @@ client.on('messageCreate', async (message) => {
     }
 });
 
-client.login('MTUzOTIzNzc2MjI3ODg4NzQ4NA.G9NLeo.16FhyHExkpaNtTfnafn9xX8fV-AzLbAI50hnGQ');
+client.login('DÁN_TOKEN_CỦA_BẠN_VÀO_ĐÂY');
