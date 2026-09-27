@@ -211,4 +211,4 @@ client.on('messageCreate', async (message) => {
 });
 
 // 📌 HÃY XÓA CHỮ DƯỚI ĐÂY ĐI VÀ DÁN MÃ TOKEN THẬT CỦA BẠN VÀO GIỮA HAI DẤU NHÁY ĐƠN:
-client.login('MTUzOTIzNzc2MjI3ODg4NzQ4NA.G9NLeo.16FhyHExkpaNtTfnafn9xX8fV-AzLbAI50hnGQ');
+client.login('zMTUzOTIzNzc2MjI3ODg4NzQ4NA.G4CjJj.mNtGgYxygBQdwBxi4RKJWVRmMCQr2h122BbNUI');
