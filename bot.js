@@ -4,6 +4,7 @@ http.createServer((req, res) => {
     res.end('Bot Sunnie online 24/7 hien tai dang hoat dong binh thuong!\n');
 }).listen(process.env.PORT || 3000);
 
+const { Client, GatewayIntentBits, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 
 const client = new Client({
     intents: [
@@ -23,7 +24,6 @@ let securitySettings = { antiraid: false, antibot: false, antilink: false };
 client.once('ready', () => {
     console.log(`🤖 Bot Sunnie da san sang! Dang nhap: ${client.user.tag}`);
 });
-
 client.on('messageCreate', async (message) => {
     if (message.author.bot) return;
     if (securitySettings.antilink && /(https?:\/\/[^\s]+)/g.test(message.content)) {
@@ -45,6 +45,7 @@ client.on('messageCreate', async (message) => {
         }
     }
 });
+
 client.on('guildMemberAdd', async (member) => {
     if (member.user.bot && securitySettings.antibot) await member.kick('Hệ thống đang bật Anti-Bot. Cấm bot lạ tham gia server.').catch(() => null);
 });
@@ -74,8 +75,7 @@ client.on('guildBanAdd', async (ban) => {
     }
     setTimeout(() => { banCounter[executor.id] = 0; }, 10000);
 });
-
-// 📌 BẮT BUỘC: Bạn hãy điền ID số tài khoản Discord của bạn vào giữa hai dấu nháy đơn dưới đây nhé!
+// 📌 BẮT BUỘC: Điền ID tài khoản Discord của bạn vào giữa hai dấu nháy đơn:
 let YOUR_ID = 'ĐIỀN_ID_CỦA_BẠN_VÀO_ĐÂY';
 
 client.on('messageCreate', async (message) => {
@@ -88,12 +88,13 @@ client.on('messageCreate', async (message) => {
         const embed = new EmbedBuilder().setColor('#FFFACD').setTitle('✨ LAND OF THE SUN ✨').setDescription(txtMenu).setImage('https://discordapp.com&').setFooter({ text: 'Hệ thống quản lý và bảo vệ độc quyền bởi Sunnie' });
         message.channel.send({ embeds: [embed] });
     }
+
     if (command === 'prefix') {
         if (!message.member.permissions.has(PermissionFlagsBits.Administrator)) return message.reply('❌ Chỉ có Quản trị viên tối cao mới có quyền thay đổi tiền tố gọi Bot!');
-        const newPrefix = args[0];
+        const newPrefix = args;
         if (!newPrefix) return message.reply('📌 Cú pháp: `' + PREFIX + 'prefix <dấu_mới>`');
         PREFIX = newPrefix;
-        message.reply('🎯 **[ THÀNH CÔNG ]** Tiền tố gọi Bot Sunnie hiện đã được đổi thành: **`' + PREFIX + '`**\n👉 Bây giờ hãy dùng lệnh: **`' + PREFIX + 'help`** để mở menu trợ giúp nhé!');
+        message.reply('🎯 Tiền tố gọi Bot hiện đã được đổi thành: **`' + PREFIX + '`**\n👉 Hãy dùng lệnh: **`' + PREFIX + 'help`** để mở menu trợ giúp nhé!');
     }
 
     if (command === 'lock') {
@@ -129,14 +130,14 @@ client.on('messageCreate', async (message) => {
         const member = message.guild.members.resolve(user);
         if (member) {
             const botHighestRole = message.guild.members.me.roles.highest;
-            if (member.roles.highest.position >= botHighestRole.position) return message.reply(`❌ **Không thể BAN!** Vai trò cao nhất của **${member.user.username}** đang xếp cao hơn hoặc bằng vai trò của Bot.\n💡 *Sửa:* Kéo role của Bot lên trên cùng.`);
+            if (member.roles.highest.position >= botHighestRole.position) return message.reply(`❌ **Không thể BAN!** Vai trò cao nhất của **${member.user.username}** đang xếp cao hơn hoặc bằng vai trò của Bot.\n💡 *Sửa:* Kéo vai trò của Bot Sunnie lên vị trí trên cùng.`);
             await member.ban({ reason }).then(() => message.reply(`🏆 ⊹⦸⊹ Đã ban **${user.tag}** thành công | Lý do: ${reason}`)).catch(() => message.reply('❌ Có lỗi phân quyền xảy ra khi thực hiện lệnh cấm vĩnh viễn.'));
         }
     }
 
     if (command === 'unban') {
         if (!message.member.permissions.has(PermissionFlagsBits.BanMembers)) return message.reply('❌ Bạn không có quyền!');
-        const userId = args[0];
+        const userId = args;
         if (!userId) return message.reply('📌 Cú pháp: `' + PREFIX + 'unban <ID_Tài_Khoản>`');
         message.guild.members.unban(userId).then(user => message.reply(`⊹✔⊹ đã gỡ ban thành công cho tài khoản: **${user.tag}**`)).catch(() => message.reply('❌ ID không nằm trong danh sách cấm hoặc không hợp lệ.'));
     }
@@ -144,15 +145,15 @@ client.on('messageCreate', async (message) => {
     if (command === 'timeout') {
         if (!message.member.permissions.has(PermissionFlagsBits.ModerateMembers)) return message.reply('❌ Bạn không có quyền phạt cấm chat thành viên!');
         const member = message.mentions.members.first();
-        const durationStr = args[1];
+        const durationStr = args;
         const reason = args.slice(2).join(' ') || 'Không có lý do.';
         if (!member || !durationStr) return message.reply('📌 Cú pháp: `' + PREFIX + 'timeout @user <10m hoặc 2h> [lý do]`');
         if (member.id === message.guild.ownerId || member.id === YOUR_ID) return message.reply('❌ **Hệ thống bảo vệ tối cao:** Bạn không được phép phạt cấm chat Đấng Tối Cao (Chủ Server hoặc Người Tạo Bot)!');
         let timeMs = durationStr.endsWith('m') ? parseInt(durationStr) * 60 * 1000 : durationStr.endsWith('h') ? parseInt(durationStr) * 3600 * 1000 : 0;
-        if (timeMs === 0) return message.reply('❌ Định dạng thời gian sai! Vui lòng nhập đuôi `m` (phút) hoặc `h` (giờ). Ví dụ: `10m`, `2h`.');
+        if (timeMs === 0) return message.reply('❌ Định dạng thời gian sai! Vui lòng nhập đuôi `m` hoặc `h`. Ví dụ: `10m`, `2h`.');
         const botHighestRole = message.guild.members.me.roles.highest;
-        if (member.roles.highest.position >= botHighestRole.position) return message.reply(`❌ **Lỗi cấp bậc (Role Hierarchy)!** Bot không thể timeout **${member.user.username}** vì vai trò của họ xếp cao hơn hoặc bằng vai trò của Bot.\n💡 *Sửa:* Kéo role của Bot lên cao nhất.`);
-        await member.timeout(timeMs, reason).then(() => message.reply('🤫 ⊹݁ ˖Ი𐑼⋆ timeout **' + member.user.tag + '** trong vòng **' + durationStr + '** | Lý do: ' + reason)).catch(() => message.reply('❌ Có lỗi phân quyền xảy ra khi thực hiện lệnh phạt cấm chat.'));
+        if (member.roles.highest.position >= botHighestRole.position) return message.reply(`❌ **Lỗi cấp bậc (Role Hierarchy)!** Bot không thể timeout **${member.user.username}** vì vai trò của họ xếp cao hơn hoặc bằng vai trò của Bot.\n💡 *Sửa:* Kéo vai trò của Bot Sunnie lên vị trí cao trên cùng bảng danh sách vai trò nha!`);
+        await member.timeout(timeMs, reason).then(() => message.reply('🤫 ⊹݁ ˖Ი𐑼⋆ timeout **' + member.user.tag + '** trong vòng **' + durationStr + '** | Lý do: ' + reason)).catch(() => message.reply('❌ Có lỗi hệ thống hoặc phân quyền xảy ra khi thực hiện lệnh phạt cấm chat.'));
     }
 
     if (command === 'untimeout') {
@@ -176,17 +177,17 @@ client.on('messageCreate', async (message) => {
         const role = message.mentions.roles.first();
         if (!member || !role) return message.reply('📌 Cú pháp: `' + PREFIX + 'role @username @ten_role`');
         const botHighestRole = message.guild.members.me.roles.highest;
-        if (role.position >= botHighestRole.position) return message.reply(`❌ **Không thể cấp role do lỗi Cấp Bậc Vai Trò!**\n💡 **Cách sửa:** Bạn phải vào *Cài đặt Máy chủ > Vai trò*, kéo vai trò của Bot Sunnie lên trên cùng bảng danh sách.`);
+        if (role.position >= botHighestRole.position) return message.reply(`❌ **Không thể cấp role do lỗi Cấp Bậc Vai Trò (Role Hierarchy)!**\n💡 **Cách sửa:** Bạn phải vào *Cài đặt Máy chủ > Vai trò*, kéo vai trò của Bot Sunnie lên trên cùng bảng danh sách.`);
         try {
-            if (member.roles.cache.has(role.id)) { await member.roles.remove(role); message.reply('💡 ૮ ྀིᴗ͈ . ᴗ͈ ྀིა đã gỡ role của ' + member.user.username + ' | Tên vai trò: **' + role.name + '**'); }
+            if (member.roles.cache.has(role.id)) { await member.roles.remove(role); message.reply(' ྀིᴗ͈ . ᴗ͈ ྀིა đã gỡ role của ' + member.user.username + ' | Tên vai trò: **' + role.name + '**'); }
             else { await member.roles.add(role); message.reply('(˶˃ ˂˶) add role ' + role.name + ' cho ' + member.user.username + ' thành công! 🎉'); }
-        } catch { message.reply('❌ Có lỗi hệ thống xảy ra khi gán vai trò.'); }
+        } catch (error) { message.reply('❌ Có lỗi hệ thống xảy ra khi gán vai trò.'); }
     }
 
     if (command === 'serverinfo') {
         const totalMembers = message.guild.memberCount;
         const botCount = message.guild.members.cache.filter(m => m.user.bot).size;
-        const embed = new EmbedBuilder().setColor('#FFFACD').setTitle('`🍮🥄 ˚₊ suɴɴιᴇ ʟᴀɴᴅ`').addFields(
+        const embed = new EmbedBuilder().setColor('#FFFACD').setTitle('🍮🥄 ˚₊ suɴɴιᴇ ʟᴀɴᴅ').addFields(
                 { name: ' ੭﹕﹒ᴀʟʟ мᴇмʙᴇʀs couɴт', value: '`' + totalMembers + ' người`', inline: false },
                 { name: ' ੭﹕﹒мᴇмʙᴇʀs', value: '`' + (totalMembers - botCount) + ' người`', inline: false },
                 { name: ' ੭﹕﹒ʙoтs', value: '`' + botCount + ' bot`', inline: false },
@@ -203,11 +204,10 @@ client.on('messageCreate', async (message) => {
         const embed = new EmbedBuilder().setColor('#FFFACD').setTitle('🍮🥄 ˚₊ ɴԍoᴀɴ xιɴн ιu củᴀ ᴀɴDRᴇA (˶˃ ᵕ ˂˶)').addFields(
                 { name: '⚡ Độ trễ mạng (Ping)', value: '`' + ping + 'ms`', inline: true },
                 { name: '⏱️ Thời gian đã chạy', value: '`' + hrs + 'h ' + mins + 'm ' + secs + 's`', inline: true },
-                { name: '👑 ٩(ˊᗜˋ*) chủ', value: '`andrea`', inline: true }
+                { name: '👑 ٩(ˊᗜˋ*) chủ', value: '`andrea`', inline: true } 
             ).setTimestamp();
         message.channel.send({ embeds: [embed] });
     }
 });
 
-// Điền mã Token của bạn vào đây trước khi khởi chạy CMD
 client.login('MTUzOTIzNzc2MjI3ODg4NzQ4NA.G9NLeo.16FhyHExkpaNtTfnafn9xX8fV-AzLbAI50hnGQ');
