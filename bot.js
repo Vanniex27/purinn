@@ -1,4 +1,9 @@
-const { Client, GatewayIntentBits, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const http = require('http');
+http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Bot Sunnie online 24/7 hien tai dang hoat dong binh thuong!\n');
+}).listen(process.env.PORT || 3000);
+
 
 const client = new Client({
     intents: [
