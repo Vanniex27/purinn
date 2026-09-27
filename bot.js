@@ -85,7 +85,7 @@ client.on('messageCreate', async (message) => {
 
     if (command === 'help' || command === 'menu') {
         const txtMenu = '**Prefix:** ' + PREFIX + '\n\n🛡️ **[ ꒰১sᴇcuʀιтʏ໒꒱ ]**\n• `lock` / `unlock` : Khóa/Mở khóa kênh chat siêu tốc.\n• `ban @user <lý do>` : Trục xuất vĩnh viễn user phá hoại.\n• `unban <ID>` : Gỡ ban bằng ID số.\n• `timeout @user <thời_gian> <lý do>` : Khóa chat thành viên.\n• `untimeout @user` : Hủy cấm chat trước thời hạn.\n• `role @user @role` : Tự động Cấp hoặc Gỡ role nhanh cho người chơi.\n• `antiraid` / `antibot` / `antilink` : Bật/Tắt chế độ bảo vệ chạy ngầm.\n• `warn @user <lý do>` : Cảnh cáo thành viên vi phạm.\n• `prefix <dấu_mới>` : Thay đổi dấu lệnh của bot nhanh chóng.\n\n🛠️ **[ ꒰১ тooʟs ໒꒱ ]**\n• `serverinfo` : Kiểm tra thông tin, công cụ và thống kê cấp độ Boost.\n• `botinfo` : Xem tình trạng hoạt động và độ trễ (ping) của bot.';
-        const embed = new EmbedBuilder().setColor('#FFFACD').setTitle('✨ LAND OF THE SUN ✨').setDescription(txtMenu).setImage('https://discordapp.com&').setFooter({ text: 'Hệ thống quản lý và bảo vệ độc quyền bởi Sunnie' });
+        const embed = new EmbedBuilder().setColor('#FFFACD').setTitle('✨ LAND OF THE SUN ✨').setDescription(txtMenu).setFooter({ text: 'Hệ thống quản lý và bảo vệ độc quyền bởi Sunnie' });
         message.channel.send({ embeds: [embed] });
     }
 
@@ -94,7 +94,7 @@ client.on('messageCreate', async (message) => {
         const newPrefix = args;
         if (!newPrefix) return message.reply('📌 Cú pháp: `' + PREFIX + 'prefix <dấu_mới>`');
         PREFIX = newPrefix;
-        message.reply('🎯 Tiền tố gọi Bot hiện đã được đổi thành: **`' + PREFIX + '`**\n👉 Hãy dùng lệnh: **`' + PREFIX + 'help`** để mở menu trợ giúp nhé!');
+        message.reply('🎯 **[ THÀNH CÔNG ]** Tiền tố gọi Bot Sunnie hiện đã được đổi thành: **`' + PREFIX + '`**\n👉 Bây giờ hãy dùng lệnh: **`' + PREFIX + 'help`** để mở menu trợ giúp nhé!');
     }
 
     if (command === 'lock') {
@@ -150,7 +150,7 @@ client.on('messageCreate', async (message) => {
         if (!member || !durationStr) return message.reply('📌 Cú pháp: `' + PREFIX + 'timeout @user <10m hoặc 2h> [lý do]`');
         if (member.id === message.guild.ownerId || member.id === YOUR_ID) return message.reply('❌ **Hệ thống bảo vệ tối cao:** Bạn không được phép phạt cấm chat Đấng Tối Cao (Chủ Server hoặc Người Tạo Bot)!');
         let timeMs = durationStr.endsWith('m') ? parseInt(durationStr) * 60 * 1000 : durationStr.endsWith('h') ? parseInt(durationStr) * 3600 * 1000 : 0;
-        if (timeMs === 0) return message.reply('❌ Định dạng thời gian sai! Vui lòng nhập đuôi `m` hoặc `h`. Ví dụ: `10m`, `2h`.');
+        if (timeMs === 0) return message.reply('❌ Định dạng thời gian sai! Vui lòng nhập đuôi `m` (phút) hoặc `h` (giờ). Ví dụ: `10m`, `2h`.');
         const botHighestRole = message.guild.members.me.roles.highest;
         if (member.roles.highest.position >= botHighestRole.position) return message.reply(`❌ **Lỗi cấp bậc (Role Hierarchy)!** Bot không thể timeout **${member.user.username}** vì vai trò của họ xếp cao hơn hoặc bằng vai trò của Bot.\n💡 *Sửa:* Kéo vai trò của Bot Sunnie lên vị trí cao trên cùng bảng danh sách vai trò nha!`);
         await member.timeout(timeMs, reason).then(() => message.reply('🤫 ⊹݁ ˖Ი𐑼⋆ timeout **' + member.user.tag + '** trong vòng **' + durationStr + '** | Lý do: ' + reason)).catch(() => message.reply('❌ Có lỗi hệ thống hoặc phân quyền xảy ra khi thực hiện lệnh phạt cấm chat.'));
@@ -179,7 +179,7 @@ client.on('messageCreate', async (message) => {
         const botHighestRole = message.guild.members.me.roles.highest;
         if (role.position >= botHighestRole.position) return message.reply(`❌ **Không thể cấp role do lỗi Cấp Bậc Vai Trò (Role Hierarchy)!**\n💡 **Cách sửa:** Bạn phải vào *Cài đặt Máy chủ > Vai trò*, kéo vai trò của Bot Sunnie lên trên cùng bảng danh sách.`);
         try {
-            if (member.roles.cache.has(role.id)) { await member.roles.remove(role); message.reply(' ྀིᴗ͈ . ᴗ͈ ྀིა đã gỡ role của ' + member.user.username + ' | Tên vai trò: **' + role.name + '**'); }
+            if (member.roles.cache.has(role.id)) { await member.roles.remove(role); message.reply('💡 ૮ ྀིᴗ͈ . ᴗ͈ ྀིა đã gỡ role của ' + member.user.username + ' | Tên vai trò: **' + role.name + '**'); }
             else { await member.roles.add(role); message.reply('(˶˃ ˂˶) add role ' + role.name + ' cho ' + member.user.username + ' thành công! 🎉'); }
         } catch (error) { message.reply('❌ Có lỗi hệ thống xảy ra khi gán vai trò.'); }
     }
@@ -187,7 +187,7 @@ client.on('messageCreate', async (message) => {
     if (command === 'serverinfo') {
         const totalMembers = message.guild.memberCount;
         const botCount = message.guild.members.cache.filter(m => m.user.bot).size;
-        const embed = new EmbedBuilder().setColor('#FFFACD').setTitle('🍮🥄 ˚₊ suɴɴιᴇ ʟᴀɴᴅ').addFields(
+        const embed = new EmbedBuilder().setColor('#FFFACD').setTitle('`🍮🥄 ˚₊ suɴɴιᴇ ʟᴀɴᴅ`').addFields(
                 { name: ' ੭﹕﹒ᴀʟʟ мᴇмʙᴇʀs couɴт', value: '`' + totalMembers + ' người`', inline: false },
                 { name: ' ੭﹕﹒мᴇмʙᴇʀs', value: '`' + (totalMembers - botCount) + ' người`', inline: false },
                 { name: ' ੭﹕﹒ʙoтs', value: '`' + botCount + ' bot`', inline: false },
@@ -210,4 +210,5 @@ client.on('messageCreate', async (message) => {
     }
 });
 
-client.login('DÁN_TOKEN_CỦA_BẠN_VÀO_ĐÂY');
+// 📌 THAY MÃ TOKEN BOT CỦA BẠN VÀO GIỮA HAI DẤU NHÁY ĐƠN:
+client.login('TOKEN_CUA_BAN_TAI_DAY');
